@@ -1,0 +1,73 @@
+.img-container {
+  width: 200px;
+  height: 200px;
+  background-image: url('../img/usr.png');
+  background-size:cover;
+  overflow:hidden;
+}
+
+.overlay {
+  background: rgba(0,0,0,.75);
+  text-align: center;
+  opacity: 0;
+  -webkit-transition: opacity .25s ease;
+  -moz-transition: opacity .25s ease;
+  height: 200px;
+  weight: 200px;
+  border-radius: 50%;
+  padding: 35px 0 0 0;
+}
+
+.plus {
+  font-family: Helvetica;
+  font-weight: 800;
+  color: white;
+  font-size: 80px;
+}
+
+.img-container:hover .overlay {
+  opacity: 1;
+}
+
+.modal-header {
+  /* background-color: #e06055; */
+  background-color:#d6222b;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-title {
+  color: #ffffff;
+}
+
+#myCanvas {
+  margin-top: 20px;
+  margin-left: 9px;
+  cursor: move;
+}
+
+.cropped-img {
+  margin-top: 20px;
+  width: 180px;
+  height: auto;
+}
+
+.cropped-img-circle {
+  margin-top: 20px;
+  margin-left: 10px;
+  border-radius: 50%;
+  width: 180px;
+  height: auto;
+}
+
+.cropped-img-rounded {
+  margin-top: 20px;
+  margin-left: 10px;
+  border-radius: 5px;
+  width: 180px;
+  height: auto;
+}
