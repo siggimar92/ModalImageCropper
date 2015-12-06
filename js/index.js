@@ -122,7 +122,7 @@ upload.onchange = function (e) {
   };
 
   function drawCropOverlay() {
-    context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    context.fillStyle = 'rgba(0, 0, 0, 0.8)';
     context.beginPath();
     context.rect(0, 0, canvas.width, canvas.height);
     context.moveTo(cropOffset, cropOffset);
