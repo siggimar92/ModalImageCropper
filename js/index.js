@@ -12,9 +12,10 @@ var upload = document.getElementsByTagName('input')[0],
     lastX = 0,
     lastY = 0,
     cropSize = 200,
-    cropOffset = 175,
+    cropOffset = 40,
     originalWidth = 0,
-    originalHeight = 0;
+    originalHeight = 0,
+    canvasWidth = 550;
 
 upload.onchange = function (e) {
   e.preventDefault();
@@ -33,14 +34,18 @@ upload.onchange = function (e) {
     	$('#scaleSlider').value = 1;
 
       img.onload = function () {
+        context.canvas.width = canvasWidth;
         // set image size so it will fit in canvas
         originalWidth = img.width;
         originalHeight = img.height;
         img.width = canvas.width;
         img.height = (originalHeight / originalWidth) * img.width;
 
-        // context.canvas.width = img.width;
-        // context.canvas.height = img.height;
+        if (img.height < 300) {
+          context.canvas.height = 300;
+        } else {
+          context.canvas.height = img.height;
+        }
 
         drawImage(0, 0);
       }
@@ -54,7 +59,8 @@ upload.onchange = function (e) {
     reader.readAsDataURL(file);
 
   } else {
-    canvas.innerHTML = '<p>Tegund skráar ekki studd. Vinsamlegast veldu mynd á forminu: .jpg, .jpeg eða .png</p>'
+    // TODO: make a nicer error thing
+    alert('Tegund skráar ekki studd. Vinsamlegast veldu mynd á forminu: .jpg, .jpeg eða .png');
   }
 
   document.getElementById('scaleSlider').oninput = function (e) {

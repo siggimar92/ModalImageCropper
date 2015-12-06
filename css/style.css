@@ -48,6 +48,9 @@
   margin-top: 20px;
   margin-left: 9px;
   cursor: move;
+  background-image: url('../img/bg.png');
+  background-repeat: repeat;
+  background-size: auto 400px;
 }
 
 .cropped-img {
