@@ -11,11 +11,14 @@ var upload = document.getElementsByTagName('input')[0],
     baseY = 0,
     lastX = 0,
     lastY = 0,
-    cropSize = 200,
-    cropOffset = 40,
     originalWidth = 0,
     originalHeight = 0,
+    scaledWidth = 0,
+    scaledHeight = 0,
     canvasWidth = 550;
+    cropSize = 200,
+    cropOffsetX = (canvasWidth / 2) - (cropSize / 2),
+    cropOffsetY = 0;
 
 upload.onchange = function (e) {
   e.preventDefault();
@@ -40,6 +43,7 @@ upload.onchange = function (e) {
         originalHeight = img.height;
         img.width = canvas.width;
         img.height = (originalHeight / originalWidth) * img.width;
+        cropOffsetY = (img.height / 2) - (cropSize / 2);
 
         if (img.height < 300) {
           context.canvas.height = 300;
@@ -66,7 +70,7 @@ upload.onchange = function (e) {
   document.getElementById('scaleSlider').oninput = function (e) {
   	scale = e.target.value;
   	drawImage(lastX, lastY);
-  }
+  };
 
   document.getElementById('crop').onclick = function (e) {
   	e.preventDefault();
@@ -78,10 +82,10 @@ upload.onchange = function (e) {
   	tmpContext = tmpCanvas.getContext('2d');
   	tmpCanvas.width = cropSize;
   	tmpCanvas.height = cropSize;
-  	tmpContext.drawImage(context.canvas, cropOffset, cropOffset, cropSize, cropSize, 0, 0, cropSize, cropSize);
+  	tmpContext.drawImage(context.canvas, cropOffsetX, cropOffsetY, cropSize, cropSize, 0, 0, cropSize, cropSize);
   	src = tmpCanvas.toDataURL();
   	document.getElementById('croppedImg').src = src;
-  }
+  };
 
   document.getElementById('reset').onclick = function (e) {
   	e.preventDefault();
@@ -92,19 +96,23 @@ upload.onchange = function (e) {
   	img.width = canvas.width;
   	img.height = (originalHeight / originalWidth) * img.width;
   	drawImage(0, 0);
-  }
+  };
 
   document.getElementById('save').onclick = function (e) {
   	// TODO: save cropped image to DB.
-  }  
+  }; 
 
   document.getElementById('cancel').onclick = function (e) {
   	// TODO: reset and close modal.
-  }
+  };
 
   function clearCanvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);    
-  }
+  };
+
+  function initiateVariables() {
+
+  };
 
   /* Redraws image on canvas after any change */
   function drawImage(x, y) {
@@ -115,6 +123,9 @@ upload.onchange = function (e) {
     baseY = baseY + (y - lastY);
     lastX = x;
     lastY = y;
+
+    scaledWidth = Math.floor(img.width * scale);
+    scaledHeight = Math.floor(img.height * scale);
     // draw the image on the canvas
     context.drawImage(img, baseX, baseY, Math.floor(img.width * scale), Math.floor(img.height * scale));
     // the alpha rect over image to show cropped area
@@ -122,13 +133,13 @@ upload.onchange = function (e) {
   };
 
   function drawCropOverlay() {
-    context.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    context.fillStyle = 'rgba(242, 242, 242, 0.8)';
     context.beginPath();
     context.rect(0, 0, canvas.width, canvas.height);
-    context.moveTo(cropOffset, cropOffset);
-    context.lineTo(cropOffset, cropSize + cropOffset);
-    context.lineTo(cropOffset + cropSize, cropOffset + cropSize);
-    context.lineTo(cropOffset + cropSize, cropOffset);
+    context.moveTo(cropOffsetX, cropOffsetY);
+    context.lineTo(cropOffsetX, cropSize + cropOffsetY);
+    context.lineTo(cropOffsetX + cropSize, cropOffsetY + cropSize);
+    context.lineTo(cropOffsetX + cropSize, cropOffsetY);
     context.closePath();
     context.fill();
   };
@@ -151,6 +162,11 @@ upload.onchange = function (e) {
     lastY = coord.y;
     // console.log("X: ", lastX);
     // console.log("Y: ", lastY);
+    // console.log("base x: ", baseX);
+    // console.log("base y: ", baseY);
+    // console.log("cropOffsetX + cropSize: ", cropOffsetX + cropSize);
+    // console.log("cropOffsetY + cropSize: ", cropOffsetY + cropSize);
+
   };
 
   /* On mouse move */
@@ -158,8 +174,24 @@ upload.onchange = function (e) {
   	e.preventDefault();
   	if (isDown) {
   		var coord = getMouseCoord(canvas, e);
-  		drawImage(coord.x, coord.y)
+  		drawImage(coord.x, coord.y);
+      if ((baseX >= cropOffsetX) || (baseY >= cropOffsetY) || ((baseX + scaledWidth) <= (cropOffsetX + cropSize)) || (baseY + scaledHeight) <= (cropOffsetY + cropSize)) {
+        // TODO: image should not get past this point fix it
+        console.log("DO STUFF!");
+      }
   	}
+
+      // if (isDown) {
+      //   var coord = getMouseCoord(canvas, e);
+        
+      //   if ((baseX >= cropOffsetX) || (baseY >= cropOffsetY) || ((baseX + scaledWidth) <= (cropOffsetX + cropSize)) || (baseY + scaledHeight) <= (cropOffsetY + cropSize)) {
+      //     // TODO: image should not get past this point fix it
+      //     console.log("DO STUFF!");
+      //   } else {
+      //     drawImage(coord.x, coord.y);
+      //   }
+      // }
+      
   };
 
   /* On mouse up */
