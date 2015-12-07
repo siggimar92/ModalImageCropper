@@ -29,8 +29,7 @@
   opacity: 1;
 }
 
-.modal-header {
-  /* background-color: #e06055; */
+/*.modal-header {
   background-color:#d6222b;
   -webkit-border-top-left-radius: 5px;
   -webkit-border-top-right-radius: 5px;
@@ -42,12 +41,18 @@
 
 .modal-title {
   color: #ffffff;
-}
+}*/
 
 #myCanvas {
   margin-top: 20px;
-  margin-left: 9px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   cursor: move;
+  max-width: 550px;
+  max-height: 550px;
 /*  background-image: url('../img/bg.png');
   background-repeat: repeat;
   background-size: auto 400px;*/
@@ -55,22 +60,6 @@
 
 .cropped-img {
   margin-top: 20px;
-  width: 180px;
-  height: auto;
-}
-
-.cropped-img-circle {
-  margin-top: 20px;
-  margin-left: 10px;
-  border-radius: 50%;
-  width: 180px;
-  height: auto;
-}
-
-.cropped-img-rounded {
-  margin-top: 20px;
-  margin-left: 10px;
-  border-radius: 5px;
   width: 180px;
   height: auto;
 }
